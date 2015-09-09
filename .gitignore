@@ -1,0 +1,8 @@
+.idea/
+*.ipr
+*.iws
+
+.idea_modules/
+
+bower_components/
+
