@@ -13,10 +13,12 @@
   ],
   "dependencies": {
     "codemirror": "~5.5.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.4",
     "iron-component-page": "PolymerElements/iron-component-page#~1.0.5",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#~1.0.3",
     "iron-icons": "PolymerElements/iron-icons#~1.0.3",
     "iron-iconset": "PolymerElements/iron-iconset#~1.0.2",
+    "iron-list": "PolymerElements/iron-list#~1.1.0",
     "iron-meta": "PolymerElements/iron-meta#~1.0.3",
     "jquery": "~2.1.4",
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#~1.0.3",
@@ -24,6 +26,7 @@
     "paper-input": "PolymerElements/paper-input#~1.0.13",
     "paper-item": "PolymerElements/paper-item#~1.0.2",
     "paper-menu": "PolymerElements/paper-menu#~1.1.0",
+    "paper-scroll-header-panel": "PolymerElements/paper-scroll-header-panel#~1.0.8",
     "paper-toolbar": "PolymerElements/paper-toolbar#~1.0.4",
     "polymer": "Polymer/polymer#~1.1.2"
   }

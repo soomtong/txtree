@@ -6,12 +6,16 @@
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
     <link href="bower_components/iron-icons/iron-icons.html" rel="import">
+    <link href="bower_components/iron-list/iron-list.html" rel="import">
+    <!--<link href="bower_components/iron-flex-layout/iron-flex-layout.html" rel="import">-->
+    <link href="bower_components/iron-ajax/iron-ajax.html" rel="import">
     <link href="bower_components/paper-icon-button/paper-icon-button.html" rel="import">
     <link href="bower_components/paper-item/paper-item.html" rel="import">
     <link href="bower_components/paper-menu/paper-menu.html" rel="import">
     <link href="bower_components/paper-input/paper-input.html" rel="import">
     <link href="bower_components/paper-toolbar/paper-toolbar.html" rel="import">
     <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
+    <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
     <style is="custom-style">
         paper-item {
         --paper-item: {
@@ -31,16 +35,13 @@
              background-color: white;
          }
         }
+        [drawer] paper-toolbar {
+            background-color: #002240;
+        }
     </style>
     <style>
         .search-container {
             display: none;
-        }
-        .drawer-container {
-            overflow: auto;
-        }
-        .drawer-container paper-toolbar {
-            background-color: #002240;
         }
         .main-menu-container {
             border-bottom: 1px solid #CCCCCC;
@@ -52,32 +53,33 @@
     <paper-drawer-panel>
         <!-- drawer-container -->
         <div drawer id="drawer-container" class="drawer-container">
-            <paper-toolbar class="title">
-                <iron-icon icon="bug-report"></iron-icon>
-                <span class="title">Txtree</span>
-            </paper-toolbar>
-
-            <div class="menu-container">
-                <div class="main-menu-container">
-                    <paper-menu>
-                        <paper-item>New</paper-item>
-                        <paper-item>List</paper-item>
-                        <paper-item>Search</paper-item>
-                        <paper-item>Hit Today</paper-item>
-                        <paper-item>Favorite</paper-item>
-                    </paper-menu>
+            <paper-scroll-header-panel class="fit" fixed>
+                <paper-toolbar>
+                    <iron-icon icon="bug-report"></iron-icon>
+                    <span class="title">Txtree</span>
+                </paper-toolbar>
+                <div class="menu-container">
+                    <div class="main-menu-container">
+                        <paper-menu>
+                            <paper-item>New</paper-item>
+                            <paper-item>List</paper-item>
+                            <paper-item>Search</paper-item>
+                            <paper-item>Hit Today</paper-item>
+                            <paper-item>Favorite</paper-item>
+                        </paper-menu>
+                    </div>
+                    <div class="file-list-container">
+                        <template is="dom-bind">
+                            <iron-ajax url="data/file_list.json" last-response="{{data}}" auto></iron-ajax>
+                            <iron-list items="[[data.fileList]]" as="item">
+                                <template>
+                                    <paper-item>[[item.title]]</paper-item>
+                                </template>
+                            </iron-list>
+                        </template>
+                    </div>
                 </div>
-                <div>
-                    <paper-menu>
-                        <paper-item>Complicated</paper-item>
-                        <paper-item>Untitled 1</paper-item>
-                        <paper-item>My New Title</paper-item>
-                        <paper-item>Dummy</paper-item>
-                        <paper-item>test Title</paper-item>
-                        <paper-item>Swift X</paper-item>
-                    </paper-menu>
-                </div>
-            </div>
+            </paper-scroll-header-panel>
         </div>
         <!-- drawer-container -->
 
