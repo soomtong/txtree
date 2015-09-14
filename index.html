@@ -16,24 +16,28 @@
     <link href="bower_components/paper-toolbar/paper-toolbar.html" rel="import">
     <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
     <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
+    <link href="bower_components/mat-editor/mat-editor.html" rel="import">
     <style is="custom-style">
         paper-item {
         --paper-item: {
              cursor: pointer;
-         }
+          }
         }
         paper-menu {
         --paper-menu-background-color: {
              background-color: #efefef;
-         }
+          }
+        --paper-menu-selected-item: {
+             background-color: #b4b4b4;
+          }
         }
         paper-drawer-panel {
         --paper-drawer-panel-left-drawer-container: {
              background-color: #efefef;
-         }
+          }
         --paper-drawer-panel-main-container: {
              background-color: white;
-         }
+          }
         }
         [drawer] paper-toolbar {
             background-color: #002240;
@@ -42,9 +46,13 @@
     <style>
         .search-container {
             display: none;
+            padding: 0.5em 1em;
         }
         .main-menu-container {
             border-bottom: 1px solid #CCCCCC;
+        }
+        #editor {
+            height: 100%;
         }
     </style>
 </head>
@@ -60,7 +68,7 @@
                 </paper-toolbar>
                 <div class="menu-container">
                     <div class="main-menu-container">
-                        <paper-menu>
+                        <paper-menu selected="1">
                             <paper-item>New</paper-item>
                             <paper-item>List</paper-item>
                             <paper-item>Search</paper-item>
@@ -91,18 +99,24 @@
 
                 <span class="title">Document Title</span>
 
-                <paper-icon-button icon="remove"></paper-icon-button>
-                <paper-icon-button icon="close"></paper-icon-button>
+                <div id="main-controller">
+                    <paper-icon-button icon="cloud">State of Nothing to do. just Online</paper-icon-button>
+                    <paper-icon-button icon="cloud-off">Disconnected</paper-icon-button>
+                    <paper-icon-button icon="cloud-download">Clone this file</paper-icon-button>
+                    <paper-icon-button icon="cloud-upload">Ready for Publish this file</paper-icon-button>
+                </div>
             </paper-toolbar>
-            <div id="search-container" class="search-container" style="border: 1px solid crimson;padding: 1em;">
-                <paper-input maxlength="12">
+            <div id="search-container" class="search-container">
+                <paper-input maxlength="12" char-counter no-label-float>
                     <paper-icon-button suffix icon="clear"></paper-icon-button>
                 </paper-input>
                 <span id="search-counting"></span>
                 <paper-icon-button icon="chevron-left"></paper-icon-button>
                 <paper-icon-button icon="chevron-right"></paper-icon-button>
             </div>
-            <div id="editor"></div>
+            <div id="editor">
+                <mat-editor auto-focus="true" empty-label="true" mode="javascript" line-numbers></mat-editor>
+            </div>
         </div>
         <!-- main-container -->
     </paper-drawer-panel>
@@ -122,8 +136,8 @@
     $(document).ready(function () {
         $('#search-btn').on('click', function () {
             $('#search-container').toggle();
-        })
-    })
+        });
+    });
 </script>
 <!-- /JS -->
 </body>
