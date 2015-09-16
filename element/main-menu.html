@@ -39,10 +39,13 @@
             }
         },
         menuIndexChanged: function (e) {
-            console.log('event: ' + e);
+            //console.log('event: ' + e);
             var that = this;
             console.log('index: ' + that.menuIndex);    // more assist in webstorm
             //console.log(this.menuIndex);  // btw, can use this
+
+            // fire event
+            this.fire('changed', { menu: that.menuIndex });
         }
         /*,
         // two way bind is better than event bind. use the system

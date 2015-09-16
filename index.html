@@ -59,7 +59,7 @@
                 </paper-toolbar>
                 <div class="menu-container">
                     <div class="main-menu-container">
-                        <main-menu menu-index="0"></main-menu>
+                        <main-menu></main-menu>
                     </div>
                     <div class="file-list-container"></div>
                     <file-list></file-list>
@@ -116,9 +116,16 @@
         });
 
         //$('main-menu').attr('menu-index', 4);   // u can change this value with jquery manipulation
+
+        document.querySelector('main-menu').addEventListener('changed', function (e) {
+            console.log('==> fired event : received value = ' + e.detail.menu); // this event data is not jquery event data, is not same, it's custom event for polymer system
+        });
     });
 /*
     $(document).ready(function () {
+        $('main-menu').on('changed', function (e) {
+            console.info(e);
+        });
     });
 */
 </script>
