@@ -17,40 +17,31 @@
     <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
     <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
     <link href="bower_components/mat-editor/mat-editor.html" rel="import">
+    <link href="element/main-menu.html" rel="import">
+    <link href="element/file-list.html" rel="import">
     <style is="custom-style">
-        paper-item {
-        --paper-item: {
-             cursor: pointer;
-          }
-        }
-        paper-menu {
-        --paper-menu-background-color: {
-             background-color: #efefef;
-          }
-        --paper-menu-selected-item: {
-             background-color: #b4b4b4;
-          }
-        }
         paper-drawer-panel {
-        --paper-drawer-panel-left-drawer-container: {
-             background-color: #efefef;
-          }
-        --paper-drawer-panel-main-container: {
-             background-color: white;
-          }
+            --paper-drawer-panel-left-drawer-container: {
+                background-color: #efefef;
+            }
+            --paper-drawer-panel-main-container: {
+                background-color: white;
+            }
         }
         [drawer] paper-toolbar {
             background-color: #002240;
         }
     </style>
     <style>
+        .main-menu-container {
+            border-bottom: 1px solid #CCCCCC;
+        }
+
         .search-container {
             display: none;
             padding: 0.5em 1em;
         }
-        .main-menu-container {
-            border-bottom: 1px solid #CCCCCC;
-        }
+
         #editor {
             height: 100%;
         }
@@ -68,24 +59,10 @@
                 </paper-toolbar>
                 <div class="menu-container">
                     <div class="main-menu-container">
-                        <paper-menu selected="1">
-                            <paper-item>New</paper-item>
-                            <paper-item>List</paper-item>
-                            <paper-item>Search</paper-item>
-                            <paper-item>Hit Today</paper-item>
-                            <paper-item>Favorite</paper-item>
-                        </paper-menu>
+                        <main-menu menu-index="0"></main-menu>
                     </div>
-                    <div class="file-list-container">
-                        <template is="dom-bind">
-                            <iron-ajax url="data/file_list.json" last-response="{{data}}" auto></iron-ajax>
-                            <iron-list items="[[data.fileList]]" as="item">
-                                <template>
-                                    <paper-item>[[item.title]]</paper-item>
-                                </template>
-                            </iron-list>
-                        </template>
-                    </div>
+                    <div class="file-list-container"></div>
+                    <file-list></file-list>
                 </div>
             </paper-scroll-header-panel>
         </div>
@@ -133,11 +110,17 @@
 <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <!-- JS -->
 <script>
-    $(document).ready(function () {
+    HTMLImports.whenReady(function () {
         $('#search-btn').on('click', function () {
             $('#search-container').toggle();
         });
+
+        //$('main-menu').attr('menu-index', 4);   // u can change this value with jquery manipulation
     });
+/*
+    $(document).ready(function () {
+    });
+*/
 </script>
 <!-- /JS -->
 </body>

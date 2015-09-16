@@ -1,0 +1,20 @@
+<dom-module id="file-list">
+    <template>
+        <div class="file-list-container">
+            <template is="dom-bind">
+                <iron-ajax url="../data/file_list.json" last-response="{{data}}" auto></iron-ajax>
+                <iron-list items="[[data.fileList]]" as="item">
+                    <template>
+                        <paper-item>[[item.title]]</paper-item>
+                    </template>
+                </iron-list>
+            </template>
+        </div>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "file-list"
+    });
+</script>
+
