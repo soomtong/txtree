@@ -16,9 +16,9 @@
     <link href="bower_components/paper-toolbar/paper-toolbar.html" rel="import">
     <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
     <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
-    <link href="bower_components/mat-editor/mat-editor.html" rel="import">
     <link href="element/main-menu.html" rel="import">
     <link href="element/file-list.html" rel="import">
+    <link href="element/editor.html" rel="import">
     <style is="custom-style">
         paper-drawer-panel {
             --paper-drawer-panel-left-drawer-container: {
@@ -92,7 +92,7 @@
                 <paper-icon-button icon="chevron-right"></paper-icon-button>
             </div>
             <div id="editor">
-                <mat-editor auto-focus="true" empty-label="true" mode="javascript" line-numbers></mat-editor>
+                <editor-codemirror></editor-codemirror>
             </div>
         </div>
         <!-- main-container -->

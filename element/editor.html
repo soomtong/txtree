@@ -1,0 +1,17 @@
+<link href="../bower_components/mat-editor/mat-editor.html" rel="import">
+<dom-module id="editor-codemirror">
+    <template>
+        <mat-editor model="{{editorContent}}" mode="javascript" auto-focus="true" empty-label="true" line-numbers></mat-editor>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: "editor-codemirror",
+        properties: {
+            editorContent: {
+                type: String,
+                value: 'new document'
+            }
+        }
+    });
+</script>
