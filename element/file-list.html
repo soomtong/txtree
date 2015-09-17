@@ -1,20 +1,57 @@
 <dom-module id="file-list">
     <template>
+        <style is="custom-style">
+            .item {
+                @apply(--layout-horizontal);
+                cursor: pointer;
+                padding: 12px 16px;
+                border-bottom: 1px solid #DDD;
+            }
+            .item.selected {
+                background-color: var(--google-grey-100);
+            }
+        </style>
+
         <div class="file-list-container">
-            <template is="dom-bind">
-                <iron-ajax url="../data/file_list.json" last-response="{{data}}" auto></iron-ajax>
-                <iron-list items="[[data.fileList]]" as="item">
-                    <template>
-                        <paper-item>[[item.title]]</paper-item>
-                    </template>
-                </iron-list>
-            </template>
+            <iron-ajax url="../data/file_list.json" last-response="{{data}}" auto></iron-ajax>
+            <iron-list id="itemsList" items="[[data.fileList]]" selected-item="{{selectedItem}}" selection-enabled>
+                <template>
+                    <div class$="[[_computedClass(selected, item.title)]]">
+                        <span>[[item.title]]</span>
+                    </div>
+                    <div class="border"></div>
+                </template>
+            </iron-list>
         </div>
     </template>
 </dom-module>
 <script>
     Polymer({
-        is: "file-list"
+        is: "file-list",
+        properties: {
+            selectedItem: {
+                type: Object,
+                observer: '_selectionChanged'
+            }
+        },
+        _computedClass: function(isSelected, title) {
+            var classes = 'item';
+            if (isSelected) {
+                classes += ' selected';
+                //console.log(title, isSelected);
+            }
+
+            return classes;
+        },
+        _selectionChanged: function (e) {
+            //console.log('event: ' + e);
+            if (e) {
+                var that = this;
+
+                // fire event
+                this.fire('file-changed', { file: that.selectedItem });
+            }
+        }
     });
 </script>
 

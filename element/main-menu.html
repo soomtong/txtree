@@ -35,17 +35,17 @@
             menuIndex: {
                 type: Number,
                 value: 0,
-                observer: 'menuIndexChanged'
+                observer: '_menuIndexChanged'
             }
         },
-        menuIndexChanged: function (e) {
+        _menuIndexChanged: function (e) {
             //console.log('event: ' + e);
             var that = this;
-            console.log('index: ' + that.menuIndex);    // more assist in webstorm
+            console.log('menu index: ' + that.menuIndex);    // more assist in webstorm
             //console.log(this.menuIndex);  // btw, can use this
 
             // fire event
-            this.fire('changed', { menu: that.menuIndex });
+            this.fire('menu-changed', { menu: that.menuIndex });
         }
         /*,
         // two way bind is better than event bind. use the system

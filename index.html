@@ -61,8 +61,9 @@
                     <div class="main-menu-container">
                         <main-menu></main-menu>
                     </div>
-                    <div class="file-list-container"></div>
-                    <file-list></file-list>
+                    <div class="file-list-container">
+                        <file-list></file-list>
+                    </div>
                 </div>
             </paper-scroll-header-panel>
         </div>
@@ -117,8 +118,14 @@
 
         //$('main-menu').attr('menu-index', 4);   // u can change this value with jquery manipulation
 
-        document.querySelector('main-menu').addEventListener('changed', function (e) {
-            console.log('==> fired event : received value = ' + e.detail.menu); // this event data is not jquery event data, is not same, it's custom event for polymer system
+        // this event data is not jquery event data, is not same, it's custom event for polymer system
+        document.querySelector('main-menu').addEventListener('menu-changed', function (e) {
+            console.log('==> fired event : received value = ' + e.detail.menu);
+        });
+
+        document.querySelector('file-list').addEventListener('file-changed', function (e) {
+            console.log('==> fired event : received value = ' + e.detail.file['title']);
+            $('main-menu').attr('menu-index', -1);
         });
     });
 /*
