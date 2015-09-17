@@ -16,22 +16,8 @@
     <link href="bower_components/paper-toolbar/paper-toolbar.html" rel="import">
     <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
     <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
-    <link href="element/main-menu.html" rel="import">
-    <link href="element/file-list.html" rel="import">
-    <link href="element/editor.html" rel="import">
-    <style is="custom-style">
-        paper-drawer-panel {
-            --paper-drawer-panel-left-drawer-container: {
-                background-color: #efefef;
-            }
-            --paper-drawer-panel-main-container: {
-                background-color: white;
-            }
-        }
-        [drawer] paper-toolbar {
-            background-color: #002240;
-        }
-    </style>
+    <link href="bower_components/mat-editor/mat-editor.html" rel="import">
+
     <style>
         .main-menu-container {
             border-bottom: 1px solid #CCCCCC;
@@ -46,68 +32,122 @@
             height: 100%;
         }
     </style>
+
+    <dom-module id="txtree-app">
+        <template>
+
+            <style is="custom-style">
+                paper-item {
+                    --paper-item: {
+                        cursor: pointer;
+                    }
+                }
+                paper-menu {
+                    --paper-menu-background-color: {
+                        background-color: #efefef;
+                    }
+                    --paper-menu-selected-item: {
+                        background-color: #b4b4b4;
+                    }
+                }
+                paper-drawer-panel {
+                    --paper-drawer-panel-left-drawer-container: {
+                        background-color: #efefef;
+                    }
+                    --paper-drawer-panel-main-container: {
+                        background-color: white;
+                    }
+                }
+                .item {
+                    @apply(--layout-horizontal);
+                    cursor: pointer;
+                    padding: 12px 16px;
+                    border-bottom: 1px solid #DDD;
+                }
+                .item.selected {
+                    background-color: var(--google-grey-100);
+                }
+                [drawer] paper-toolbar {
+                    background-color: #002240;
+                }
+            </style>
+
+            <div id="window-container">
+                <paper-drawer-panel>
+                    <!-- drawer-container -->
+                    <div drawer id="drawer-container" class="drawer-container">
+                        <paper-scroll-header-panel class="fit" fixed>
+                            <paper-toolbar>
+                                <iron-icon icon="bug-report"></iron-icon>
+                                <span class="title">Txtree</span>
+                            </paper-toolbar>
+                            <div class="menu-container">
+                                <div class="main-menu-container">
+                                    <paper-menu selected="{{menuIndex}}">
+                                        <paper-item>New</paper-item>
+                                        <paper-item>List</paper-item>
+                                        <paper-item>Search</paper-item>
+                                        <paper-item>Hit Today</paper-item>
+                                        <paper-item>Favorite</paper-item>
+                                    </paper-menu>
+                                </div>
+                                <div class="file-list-container">
+                                    <iron-ajax url="./data/file_list.json" last-response="{{data}}" auto></iron-ajax>
+                                    <iron-list id="itemsList" items="[[data.fileList]]" selected-item="{{selectedItem}}" selection-enabled>
+                                        <template>
+                                            <div class$="[[_computedClass(selected, item.title)]]">
+                                                <span>[[item.title]]</span>
+                                            </div>
+                                            <div class="border"></div>
+                                        </template>
+                                    </iron-list>
+                                </div>
+                            </div>
+                        </paper-scroll-header-panel>
+                    </div>
+                    <!-- drawer-container -->
+
+                    <!-- main-container -->
+                    <div main>
+                        <paper-toolbar id="main-container" class="main-container">
+                            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                            <paper-icon-button icon="search" id="search-btn"></paper-icon-button>
+
+                            <span class="title">Document Title</span>
+
+                            <div id="main-controller">
+                                <paper-icon-button icon="cloud">State of Nothing to do. just Online</paper-icon-button>
+                                <paper-icon-button icon="cloud-off">Disconnected</paper-icon-button>
+                                <paper-icon-button icon="cloud-download">Clone this file</paper-icon-button>
+                                <paper-icon-button icon="cloud-upload">Ready for Publish this file</paper-icon-button>
+                            </div>
+                        </paper-toolbar>
+                        <div id="search-container" class="search-container">
+                            <paper-input maxlength="12" char-counter no-label-float>
+                                <paper-icon-button suffix icon="clear"></paper-icon-button>
+                            </paper-input>
+                            <span id="search-counting"></span>
+                            <paper-icon-button icon="chevron-left"></paper-icon-button>
+                            <paper-icon-button icon="chevron-right"></paper-icon-button>
+                        </div>
+                        <div id="editor">
+                            <mat-editor model="{{editorContent}}" mode="javascript" auto-focus="true" empty-label="true" line-numbers></mat-editor>
+                        </div>
+                    </div>
+                    <!-- main-container -->
+                </paper-drawer-panel>
+            </div>
+
+            <div id="dialog-container">
+                <div class="dialog-window">
+                    <div class="dialog-text"></div>
+                    <div class="dialog-buttons"></div>
+                </div>
+            </div>
+
+        </template>
+    </dom-module>
 </head>
-<body>
-<div id="window-container">
-    <paper-drawer-panel>
-        <!-- drawer-container -->
-        <div drawer id="drawer-container" class="drawer-container">
-            <paper-scroll-header-panel class="fit" fixed>
-                <paper-toolbar>
-                    <iron-icon icon="bug-report"></iron-icon>
-                    <span class="title">Txtree</span>
-                </paper-toolbar>
-                <div class="menu-container">
-                    <div class="main-menu-container">
-                        <main-menu></main-menu>
-                    </div>
-                    <div class="file-list-container">
-                        <file-list></file-list>
-                    </div>
-                </div>
-            </paper-scroll-header-panel>
-        </div>
-        <!-- drawer-container -->
-
-        <!-- main-container -->
-        <div main>
-            <paper-toolbar id="main-container" class="main-container">
-                <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                <paper-icon-button icon="search" id="search-btn"></paper-icon-button>
-
-                <span class="title">Document Title</span>
-
-                <div id="main-controller">
-                    <paper-icon-button icon="cloud">State of Nothing to do. just Online</paper-icon-button>
-                    <paper-icon-button icon="cloud-off">Disconnected</paper-icon-button>
-                    <paper-icon-button icon="cloud-download">Clone this file</paper-icon-button>
-                    <paper-icon-button icon="cloud-upload">Ready for Publish this file</paper-icon-button>
-                </div>
-            </paper-toolbar>
-            <div id="search-container" class="search-container">
-                <paper-input maxlength="12" char-counter no-label-float>
-                    <paper-icon-button suffix icon="clear"></paper-icon-button>
-                </paper-input>
-                <span id="search-counting"></span>
-                <paper-icon-button icon="chevron-left"></paper-icon-button>
-                <paper-icon-button icon="chevron-right"></paper-icon-button>
-            </div>
-            <div id="editor">
-                <editor-codemirror></editor-codemirror>
-            </div>
-        </div>
-        <!-- main-container -->
-    </paper-drawer-panel>
-</div>
-<!-- window-container -->
-
-<div id="dialog-container">
-    <div class="dialog-window">
-        <div class="dialog-text"></div>
-        <div class="dialog-buttons"></div>
-    </div>
-</div>
-
 <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <!-- JS -->
 <script>
@@ -116,26 +156,55 @@
             $('#search-container').toggle();
         });
 
-        //$('main-menu').attr('menu-index', 4);   // u can change this value with jquery manipulation
+        Polymer({
+            is: "txtree-app",
+            properties: {
+                editorContent: {
+                    type: String,
+                    value: 'new document'
+                },
+                menuIndex: {
+                    type: Number,
+                    value: 0,
+                    observer: '_menuIndexChanged'
+                },
+                selectedItem: {
+                    type: Object,
+                    observer: '_selectionChanged'
+                }
+            },
+            _menuIndexChanged: function (e) {
+                //console.log('event: ' + e);
+                var that = this;
+                console.log('menu index: ' + that.menuIndex);    // more assist in webstorm
+                //console.log(this.menuIndex);  // btw, can use this
 
-        // this event data is not jquery event data, is not same, it's custom event for polymer system
-        document.querySelector('main-menu').addEventListener('menu-changed', function (e) {
-            console.log('==> fired event : received value = ' + e.detail.menu);
-        });
+                // fire event
+                this.fire('menu-changed', { menu: that.menuIndex });
+            },
+            _computedClass: function(isSelected, title) {
+                var classes = 'item';
+                if (isSelected) {
+                    classes += ' selected';
+                    //console.log(title, isSelected);
+                }
 
-        document.querySelector('file-list').addEventListener('file-changed', function (e) {
-            console.log('==> fired event : received value = ' + e.detail.file['title']);
-            $('main-menu').attr('menu-index', -1);
+                return classes;
+            },
+            _selectionChanged: function (e) {
+                //console.log('event: ' + e);
+                if (e) {
+                    var that = this;
+
+                    // fire event
+                    this.fire('file-changed', { file: that.selectedItem });
+                }
+            }
         });
     });
-/*
-    $(document).ready(function () {
-        $('main-menu').on('changed', function (e) {
-            console.info(e);
-        });
-    });
-*/
 </script>
 <!-- /JS -->
+<body>
+    <txtree-app></txtree-app>
 </body>
 </html>
