@@ -1,0 +1,16 @@
+<link href="../bower_components/mat-editor/mat-editor.html" rel="import">
+
+<dom-module id="txtree-editor">
+    <template>
+        <mat-editor model="{{content}}" mode="javascript" auto-focus="true" empty-label="true" line-numbers></mat-editor>
+    </template>
+    <script>
+        Polymer({
+            is: 'txtree-editor',
+            properties: {
+                content: String,
+                notify: true
+            }
+        });
+    </script>
+</dom-module>

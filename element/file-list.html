@@ -1,0 +1,47 @@
+<link href="../bower_components/paper-menu/paper-menu.html" rel="import">
+<link href="../bower_components/paper-item/paper-item.html" rel="import">
+
+<dom-module id="file-list">
+    <template>
+        <style is="custom-style">
+            paper-item {
+                cursor: pointer;
+            }
+            paper-menu {
+                background-color: #f3f3f3;
+            }
+        </style>
+        <paper-menu selected="{{_selectedIndex}}">
+            <template is="dom-repeat" items="{{files}}">
+                <paper-item>
+                    <span>{{item.title}}</span>
+                </paper-item>
+            </template>
+        </paper-menu>
+
+        <array-selector id="selector" items="{{files}}" selected-item="{{selectedFile}}"></array-selector>
+    </template>
+    <script>
+        Polymer({
+            is: 'file-list',
+            properties: {
+                files: {
+                    type: Array,
+                    observer: '_listChanged'
+                },
+                _selectedIndex: {
+                    observer: '_selectedIndexChanged'
+                },
+                selectedFile: {
+                    notify: true
+                }
+            },
+            _listChanged: function() {
+                this._selectedIndex = -1;
+            },
+            _selectedIndexChanged: function(idx) {
+                this.$.selector.select(this.files[idx]);
+            }
+        });
+    </script>
+</dom-module>

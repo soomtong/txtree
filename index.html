@@ -16,7 +16,8 @@
     <link href="bower_components/paper-toolbar/paper-toolbar.html" rel="import">
     <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
     <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
-    <link href="bower_components/mat-editor/mat-editor.html" rel="import">
+    <link href="element/file-list.html" rel="import">
+    <link href="element/editor.html" rel="import">
 
     <style>
         .main-menu-container {
@@ -47,7 +48,7 @@
                         background-color: #efefef;
                     }
                     --paper-menu-selected-item: {
-                        background-color: #b4b4b4;
+                        background-color: #a3a3a3;
                     }
                 }
                 paper-drawer-panel {
@@ -58,19 +59,12 @@
                         background-color: white;
                     }
                 }
-                .item {
-                    @apply(--layout-horizontal);
-                    cursor: pointer;
-                    padding: 12px 16px;
-                    border-bottom: 1px solid #DDD;
-                }
-                .item.selected {
-                    background-color: var(--google-grey-100);
-                }
                 [drawer] paper-toolbar {
                     background-color: #002240;
                 }
             </style>
+
+            <iron-ajax url="./data/file_list.json" last-response="{{files}}" auto></iron-ajax>
 
             <div id="window-container">
                 <paper-drawer-panel>
@@ -92,15 +86,7 @@
                                     </paper-menu>
                                 </div>
                                 <div class="file-list-container">
-                                    <iron-ajax url="./data/file_list.json" last-response="{{data}}" auto></iron-ajax>
-                                    <iron-list id="itemsList" items="[[data.fileList]]" selected-item="{{selectedItem}}" selection-enabled>
-                                        <template>
-                                            <div class$="[[_computedClass(selected, item.title)]]">
-                                                <span>[[item.title]]</span>
-                                            </div>
-                                            <div class="border"></div>
-                                        </template>
-                                    </iron-list>
+                                    <file-list files="{{files.list}}" selected-file="{{selectedFile}}"></file-list>
                                 </div>
                             </div>
                         </paper-scroll-header-panel>
@@ -131,7 +117,7 @@
                             <paper-icon-button icon="chevron-right"></paper-icon-button>
                         </div>
                         <div id="editor">
-                            <mat-editor model="{{editorContent}}" mode="javascript" auto-focus="true" empty-label="true" line-numbers></mat-editor>
+                            <txtree-editor content="{{selectedFile.text}}"></txtree-editor>
                         </div>
                     </div>
                     <!-- main-container -->
@@ -167,10 +153,6 @@
                     type: Number,
                     value: 0,
                     observer: '_menuIndexChanged'
-                },
-                selectedItem: {
-                    type: Object,
-                    observer: '_selectionChanged'
                 }
             },
             _menuIndexChanged: function (e) {
@@ -181,24 +163,6 @@
 
                 // fire event
                 this.fire('menu-changed', { menu: that.menuIndex });
-            },
-            _computedClass: function(isSelected, title) {
-                var classes = 'item';
-                if (isSelected) {
-                    classes += ' selected';
-                    //console.log(title, isSelected);
-                }
-
-                return classes;
-            },
-            _selectionChanged: function (e) {
-                //console.log('event: ' + e);
-                if (e) {
-                    var that = this;
-
-                    // fire event
-                    this.fire('file-changed', { file: that.selectedItem });
-                }
             }
         });
     });
