@@ -142,6 +142,10 @@
             $('#search-container').toggle();
         });
 
+        window.setTimeout(function () {
+            $('paper-menu').eq(1).prop('selected', 2);
+        }, 1001);
+
         Polymer({
             is: "txtree-app",
             properties: {
