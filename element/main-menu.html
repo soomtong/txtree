@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../element/shared-style.html">
+
+<dom-module id="main-menu">
+    <template>
+        <style include="shared-style"></style>
+        <style>
+            paper-menu {
+                background-color: #aad2ef;
+            }
+        </style>
+
+        <paper-menu selected="{{selected}}">
+            <paper-item>New</paper-item>
+            <paper-item>List</paper-item>
+            <paper-item>Search</paper-item>
+            <paper-item>Hit Today</paper-item>
+            <paper-item>Favorite</paper-item>
+        </paper-menu>
+    </template>
+    <script>
+        Polymer({
+            is: 'main-menu',
+            properties: {
+                selected: {
+                    type: Number,
+                    observer: '_menuIndexChanged'
+                }
+            },
+            _menuIndexChanged: function (e) {
+                //console.log('event: ' + e);
+                var that = this;
+                console.log('menu index: ' + that.selected);    // more assist in webstorm
+                //console.log(this.selected);  // btw, can use this
+
+                // fire event
+                this.fire('menu-changed', { menu: that.selected });
+            }
+        });
+        window.setTimeout(function () {
+//            console.log('access!');
+//            $('paper-menu').eq(0).prop('selected', 2);
+        }, 1001);
+    </script>
+</dom-module>

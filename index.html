@@ -5,88 +5,43 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
-    <link href="bower_components/iron-icons/iron-icons.html" rel="import">
-    <link href="bower_components/iron-list/iron-list.html" rel="import">
     <!--<link href="bower_components/iron-flex-layout/iron-flex-layout.html" rel="import">-->
-    <link href="bower_components/iron-ajax/iron-ajax.html" rel="import">
-    <link href="bower_components/paper-icon-button/paper-icon-button.html" rel="import">
-    <link href="bower_components/paper-item/paper-item.html" rel="import">
-    <link href="bower_components/paper-menu/paper-menu.html" rel="import">
-    <link href="bower_components/paper-input/paper-input.html" rel="import">
-    <link href="bower_components/paper-toolbar/paper-toolbar.html" rel="import">
-    <link href="bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
-    <link href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html" rel="import">
-    <link href="element/file-list.html" rel="import">
-    <link href="element/editor.html" rel="import">
+    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="bower_components/iron-list/iron-list.html">
+    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 
-    <style>
-        .main-menu-container {
-            border-bottom: 1px solid #CCCCCC;
-        }
+    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="bower_components/paper-item/paper-item.html">
+    <link rel="import" href="bower_components/paper-menu/paper-menu.html">
+    <link rel="import" href="bower_components/paper-input/paper-input.html">
+    <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
 
-        .search-container {
-            display: none;
-            padding: 0.5em 1em;
-        }
+    <link rel="import" href="element/app-title.html">
+    <link rel="import" href="element/main-menu.html">
+    <link rel="import" href="element/local-file.html">
+    <link rel="import" href="element/editor.html">
 
-        #editor {
-            height: 100%;
-        }
-    </style>
+    <link rel="import" href="element/shared-style.html">
+    <link rel="stylesheet" href="css/app.css"/>
 
     <dom-module id="txtree-app">
         <template>
-
-            <style is="custom-style">
-                paper-item {
-                    --paper-item: {
-                        cursor: pointer;
-                    }
-                }
-                paper-menu {
-                    --paper-menu-background-color: {
-                        background-color: #efefef;
-                    }
-                    --paper-menu-selected-item: {
-                        background-color: #a3a3a3;
-                    }
-                }
-                paper-drawer-panel {
-                    --paper-drawer-panel-left-drawer-container: {
-                        background-color: #efefef;
-                    }
-                    --paper-drawer-panel-main-container: {
-                        background-color: white;
-                    }
-                }
-                [drawer] paper-toolbar {
-                    background-color: #002240;
-                }
-            </style>
-
-            <iron-ajax url="./data/file_list.json" last-response="{{files}}" auto></iron-ajax>
+            <style include="shared-style"></style>
 
             <div id="window-container">
                 <paper-drawer-panel>
                     <!-- drawer-container -->
                     <div drawer id="drawer-container" class="drawer-container">
                         <paper-scroll-header-panel class="fit" fixed>
-                            <paper-toolbar>
-                                <iron-icon icon="bug-report"></iron-icon>
-                                <span class="title">Txtree</span>
-                            </paper-toolbar>
+                            <app-title info="{{app}}"></app-title>
                             <div class="menu-container">
                                 <div class="main-menu-container">
-                                    <paper-menu selected="{{menuIndex}}">
-                                        <paper-item>New</paper-item>
-                                        <paper-item>List</paper-item>
-                                        <paper-item>Search</paper-item>
-                                        <paper-item>Hit Today</paper-item>
-                                        <paper-item>Favorite</paper-item>
-                                    </paper-menu>
+                                    <main-menu selected="{{menu}}"></main-menu>
                                 </div>
-                                <div class="file-list-container">
-                                    <file-list files="{{files.list}}" selected-file="{{selectedFile}}"></file-list>
+                                <div class="local-file-container">
+                                    <local-file selected-file="{{selectedFile}}"></local-file>
                                 </div>
                             </div>
                         </paper-scroll-header-panel>
@@ -123,14 +78,6 @@
                     <!-- main-container -->
                 </paper-drawer-panel>
             </div>
-
-            <div id="dialog-container">
-                <div class="dialog-window">
-                    <div class="dialog-text"></div>
-                    <div class="dialog-buttons"></div>
-                </div>
-            </div>
-
         </template>
     </dom-module>
 </head>
@@ -138,35 +85,25 @@
 <!-- JS -->
 <script>
     HTMLImports.whenReady(function () {
+
         $('#search-btn').on('click', function () {
             $('#search-container').toggle();
         });
 
-        window.setTimeout(function () {
-            $('paper-menu').eq(1).prop('selected', 2);
-        }, 1001);
-
         Polymer({
             is: "txtree-app",
             properties: {
-                editorContent: {
-                    type: String,
-                    value: 'new document'
+                app: {
+                    type: Object,
+                    value: {
+                        title: "Txtree",
+                        version: "0.0.1"
+                    }
                 },
-                menuIndex: {
+                menu: {
                     type: Number,
-                    value: 0,
-                    observer: '_menuIndexChanged'
+                    value: 0    // go default at start
                 }
-            },
-            _menuIndexChanged: function (e) {
-                //console.log('event: ' + e);
-                var that = this;
-                console.log('menu index: ' + that.menuIndex);    // more assist in webstorm
-                //console.log(this.menuIndex);  // btw, can use this
-
-                // fire event
-                this.fire('menu-changed', { menu: that.menuIndex });
             }
         });
     });
@@ -174,5 +111,11 @@
 <!-- /JS -->
 <body>
     <txtree-app></txtree-app>
+    <div id="dialog-container">
+        <div class="dialog-window">
+            <div class="dialog-text"></div>
+            <div class="dialog-buttons"></div>
+        </div>
+    </div>
 </body>
 </html>
