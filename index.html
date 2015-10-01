@@ -11,16 +11,15 @@
     <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 
     <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="bower_components/paper-item/paper-item.html">
     <link rel="import" href="bower_components/paper-menu/paper-menu.html">
     <link rel="import" href="bower_components/paper-input/paper-input.html">
-    <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
     <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
     <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
 
     <link rel="import" href="element/app-title.html">
     <link rel="import" href="element/main-menu.html">
     <link rel="import" href="element/local-file.html">
+    <link rel="import" href="element/document-title.html">
     <link rel="import" href="element/editor.html">
 
     <link rel="import" href="element/shared-style.html">
@@ -50,19 +49,7 @@
 
                     <!-- main-container -->
                     <div main>
-                        <paper-toolbar id="main-container" class="main-container">
-                            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                            <paper-icon-button icon="search" id="search-btn"></paper-icon-button>
-
-                            <span class="title">Document Title</span>
-
-                            <div id="main-controller">
-                                <paper-icon-button icon="cloud">State of Nothing to do. just Online</paper-icon-button>
-                                <paper-icon-button icon="cloud-off">Disconnected</paper-icon-button>
-                                <paper-icon-button icon="cloud-download">Clone this file</paper-icon-button>
-                                <paper-icon-button icon="cloud-upload">Ready for Publish this file</paper-icon-button>
-                            </div>
-                        </paper-toolbar>
+                        <document-title document="{{selectedFile}}" info="{{app}}"></document-title>
                         <div id="search-container" class="search-container">
                             <paper-input maxlength="12" char-counter no-label-float>
                                 <paper-icon-button suffix icon="clear"></paper-icon-button>
@@ -72,7 +59,7 @@
                             <paper-icon-button icon="chevron-right"></paper-icon-button>
                         </div>
                         <div id="editor">
-                            <txtree-editor content="{{selectedFile.text}}"></txtree-editor>
+                            <txtree-editor document="{{selectedFile}}" info="{{app}}"></txtree-editor>
                         </div>
                     </div>
                     <!-- main-container -->
@@ -85,11 +72,6 @@
 <!-- JS -->
 <script>
     HTMLImports.whenReady(function () {
-
-        $('#search-btn').on('click', function () {
-            $('#search-container').toggle();
-        });
-
         Polymer({
             is: "txtree-app",
             properties: {
@@ -97,8 +79,12 @@
                     type: Object,
                     value: {
                         title: "Txtree",
-                        version: "0.0.1"
+                        version: "0.0.1",
+                        disconnected: false
                     }
+                },
+                selectedFile: {
+                    type: Object
                 },
                 menu: {
                     type: Number,
@@ -107,6 +93,11 @@
             }
         });
     });
+    $(document).ready(function () {
+        $('#window-container').on('click', '#search-btn', function () {
+            $('#search-container').toggle();
+        });
+    })
 </script>
 <!-- /JS -->
 <body>

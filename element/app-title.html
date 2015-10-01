@@ -5,16 +5,16 @@
     <template>
         <style include="shared-style"></style>
         <style>
-            paper-toolbar span.title {
+            paper-toolbar.app-title span.title {
                 margin-left: 12px;
             }
 
-            paper-toolbar {
+            paper-toolbar.app-title {
                 background-color: #002240;
             }
         </style>
 
-        <paper-toolbar>
+        <paper-toolbar class="app-title">
             <iron-icon icon="bug-report"></iron-icon>
             <span class="title">{{info.title}}</span>
             <small>{{info.version}}</small>

@@ -2,13 +2,13 @@
 
 <dom-module id="txtree-editor">
     <template>
-        <mat-editor model="{{content}}" mode="javascript" auto-focus="true" empty-label="true" line-numbers></mat-editor>
+        <mat-editor model="{{document.text}}" mode="javascript" auto-focus="true" empty-label="true" line-numbers></mat-editor>
     </template>
     <script>
         Polymer({
             is: 'txtree-editor',
             properties: {
-                content: String,
+                document: Object,
                 notify: true
             }
         });

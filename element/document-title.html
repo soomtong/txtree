@@ -1,0 +1,66 @@
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="document-title">
+    <template>
+        <style include="shared-style"></style>
+        <style is="custom-style">
+            paper-toolbar.document-title span.title {
+                cursor: pointer;
+                margin-left: 0.5em;
+            }
+        </style>
+
+        <paper-toolbar class="document-title">
+            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+
+            <template is="dom-if" if="{{document.text}}">
+                <paper-icon-button icon="search" id="search-btn"></paper-icon-button>
+            </template>
+
+            <span class="title">{{getTitle(document)}}</span>
+
+            <div id="main-controller">
+                <template is="dom-if" if="{{document.isEdited}}">
+                    <paper-icon-button icon="cloud">State of Nothing to do. just Online</paper-icon-button>
+                </template>
+                <template is="dom-if" if="{{info.disconnected}}">
+                    <paper-icon-button icon="cloud-off">Disconnected</paper-icon-button>
+                </template>
+                <template is="dom-if" if="{{toClone(document)}}">
+                    <paper-icon-button icon="cloud-download">Clone this file</paper-icon-button>
+                </template>
+                <template is="dom-if" if="{{toCloud(document)}}">
+                    <paper-icon-button icon="cloud-upload">Ready for Publish this file</paper-icon-button>
+                </template>
+            </div>
+        </paper-toolbar>
+    </template>
+    <script>
+        Polymer({
+            is: 'document-title',
+            properties: {
+                document: {
+                    type: Object
+                }
+            },
+            getTitle: function (document) {
+                var title = document ? document.title : '';
+
+                return title.toUpperCase();
+            },
+            getTitleID: function (document) {
+                return document._id;
+            },
+            toClone: function (document) {
+                return false;
+            },
+            toCloud: function (document) {
+                var doc = document || {};
+
+                return doc.text && doc.isEdited ? true : false;
+            }
+        });
+    </script>
+</dom-module>
