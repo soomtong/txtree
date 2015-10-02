@@ -20,6 +20,15 @@
         </paper-menu>
     </template>
     <script>
+        function GUID() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+            }
+            return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+        }
+
         Polymer({
             is: 'main-menu',
             properties: {
@@ -42,18 +51,22 @@
                 this.fire('menu-changed', { menu: that.selected });
             },
             createNewDocument: function () {
-                var id = 0;
+                var id = GUID();
                 var doc = {
                     _id: id,
                     title: 'New Document',
                     text: 'Some Text Here'
                 };
 
-                this.set('document', doc);
+                var comp = this.get('document');
 
-                this.push('data.list', doc);
+                if (comp === null || (comp.title != doc.title || comp.text != doc.text)) {
+                    // make new doc
+                    this.set('document', doc);
 
-                console.log('setNewDocument:', this.get('document'));
+                    this.push('data.list', doc);
+                    console.log('setNewDocument:', this.get('document'));
+                }
             },
             readListFromServer: function () {
                 console.log('getList');
