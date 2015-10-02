@@ -29,18 +29,23 @@
         <template>
             <style include="shared-style"></style>
 
+            <iron-ajax url="{{localDataUrl}}" last-response="{{localData}}" auto></iron-ajax>
+            <iron-ajax url="{{serverDataUrl}}" last-response="{{serverData}}" auto></iron-ajax>
+
             <div id="window-container">
                 <paper-drawer-panel>
                     <!-- drawer-container -->
                     <div drawer id="drawer-container" class="drawer-container">
                         <paper-scroll-header-panel class="fit" fixed>
                             <app-title info="{{app}}"></app-title>
+
                             <div class="menu-container">
                                 <div class="main-menu-container">
-                                    <main-menu selected="{{menu}}"></main-menu>
+                                    <main-menu selected="{{menu}}" document="{{document}}" data="{{localData}}"></main-menu>
                                 </div>
+
                                 <div class="local-file-container">
-                                    <local-file selected-file="{{selectedFile}}"></local-file>
+                                    <local-file selected="{{document}}" data="{{localData}}"></local-file>
                                 </div>
                             </div>
                         </paper-scroll-header-panel>
@@ -49,7 +54,8 @@
 
                     <!-- main-container -->
                     <div main>
-                        <document-title document="{{selectedFile}}" info="{{app}}"></document-title>
+                        <document-title document="{{document}}" info="{{app}}"></document-title>
+
                         <div id="search-container" class="search-container">
                             <paper-input maxlength="12" char-counter no-label-float>
                                 <paper-icon-button suffix icon="clear"></paper-icon-button>
@@ -58,8 +64,9 @@
                             <paper-icon-button icon="chevron-left"></paper-icon-button>
                             <paper-icon-button icon="chevron-right"></paper-icon-button>
                         </div>
+
                         <div id="editor">
-                            <txtree-editor document="{{selectedFile}}" info="{{app}}"></txtree-editor>
+                            <txtree-editor document="{{document}}" info="{{app}}"></txtree-editor>
                         </div>
                     </div>
                     <!-- main-container -->
@@ -83,7 +90,23 @@
                         disconnected: false
                     }
                 },
-                selectedFile: {
+                localDataUrl: {
+                    type: String,
+                    value: "./data/file_list.json"
+                },
+                localData: {
+                    type: Object,
+                    notify: true
+                },
+                serverDataUrl: {
+                    type: String,
+                    value: "./data/file_list.json"
+                },
+                serverData: {
+                    type: Object,
+                    notify: true
+                },
+                document: {
                     type: Object
                 },
                 menu: {

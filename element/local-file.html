@@ -11,8 +11,6 @@
             }
         </style>
 
-        <iron-ajax url="{{url}}" last-response="{{data}}" auto></iron-ajax>
-
         <paper-menu selected="{{_selectedIndex}}">
             <template is="dom-repeat" items="{{data.list}}" as="item">
                 <paper-item>
@@ -21,50 +19,26 @@
             </template>
         </paper-menu>
 
-        <paper-item on-tap="addNewFile">
-            <span>Add</span>
-        </paper-item>
-
-        <array-selector id="selector" items="{{data.list}}" selected="{{selectedFile}}"></array-selector>
-
-        <!--<array-selector id="selector" items="{{files}}" selected-item="{{selected}}"></array-selector>-->
-
+        <array-selector id="selector" items="{{data.list}}" selected-item="{{selected}}"></array-selector>
     </template>
     <script>
         Polymer({
             is: 'local-file',
             properties: {
-                url: {
-                    type: String,
-                    value: "./data/file_list.json"
-                },
                 data: {
                     type: Object,
                     notify: true
                 },
-                /*
-                files: {
-                    type: Array,
-                    computed: 'getFileList(data)'
-                },
-                */
                 _selectedIndex: {
                     observer: '_selectedIndexChanged'
                 },
-                selectedFile: {
+                selected: {
+                    type: Object,
                     notify: true    // should declared for upper element
                 }
             },
-/*
-            getFileList: function (data) {
-                return data.list;
-            },
-*/
             _selectedIndexChanged: function(idx) {
-/*
-                console.log(idx, this.data.list[idx]);
-                this.$.selector.select(this.files[idx]);
-*/
+                console.log('selected local file', idx, this.data.list[idx]);
                 this.$.selector.select(this.data.list[idx]);
             },
             addNewFile: function (e) {

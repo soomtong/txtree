@@ -12,11 +12,11 @@
         </style>
 
         <paper-menu selected="{{selected}}">
-            <paper-item>New</paper-item>
-            <paper-item>List</paper-item>
-            <paper-item>Search</paper-item>
-            <paper-item>Hit Today</paper-item>
-            <paper-item>Favorite</paper-item>
+            <paper-item on-tap="createNewDocument">New</paper-item>
+            <paper-item on-tap="readListFromServer">List</paper-item>
+            <paper-item on-tap="searchListFromServer">Search</paper-item>
+            <paper-item on-tap="readTodayListFromServer">Hit Today</paper-item>
+            <paper-item on-tap="readFavoriteListFromServer">Favorite</paper-item>
         </paper-menu>
     </template>
     <script>
@@ -26,6 +26,10 @@
                 selected: {
                     type: Number,
                     observer: '_menuIndexChanged'
+                },
+                document: {
+                    type: Object,
+                    notify: true
                 }
             },
             _menuIndexChanged: function (e) {
@@ -36,6 +40,32 @@
 
                 // fire event
                 this.fire('menu-changed', { menu: that.selected });
+            },
+            createNewDocument: function () {
+                var id = 0;
+                var doc = {
+                    _id: id,
+                    title: 'New Document',
+                    text: 'Some Text Here'
+                };
+
+                this.set('document', doc);
+
+                this.push('data.list', doc);
+
+                console.log('setNewDocument:', this.get('document'));
+            },
+            readListFromServer: function () {
+                console.log('getList');
+            },
+            searchListFromServer: function () {
+                console.log('searchList');
+            },
+            readTodayListFromServer: function () {
+                console.log('getTodayList');
+            },
+            readFavoriteListFromServer: function () {
+                console.log('getFavoriteList');
             }
         });
         window.setTimeout(function () {
