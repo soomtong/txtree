@@ -24,3 +24,18 @@ every chrome app passing csp exception
 ## use in chrome
 
 go `chrome://extensions` and run load unpacked extension, select folder.
+
+## todo
+
+- [ ] load list from local storage
+- [ ] save to local storage
+- [ ] delete from local storage
+- [ ] switch to chrome storage
+- [ ] load list from cloud
+- [ ] patch list from cloud by pagination
+- [ ] load today list from cloud
+- [ ] share to cloud
+- [ ] clone from cloud
+- [ ] favorite in cloud from local storage
+- [ ] search in cloud
+- [ ] app theme
