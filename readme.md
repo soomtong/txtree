@@ -27,8 +27,8 @@ go `chrome://extensions` and run load unpacked extension, select folder.
 
 ## todo
 
-- [ ] load list from local storage
-- [ ] save to local storage
+- [x] load list from local storage
+- [x] save to local storage
 - [ ] delete from local storage
 - [ ] switch to chrome storage
 - [ ] load list from cloud

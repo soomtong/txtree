@@ -34,6 +34,9 @@
                 <template is="dom-if" if="{{toCloud(document)}}">
                     <paper-icon-button icon="cloud-upload">Ready for Publish this file</paper-icon-button>
                 </template>
+                <template is="dom-if" if="{{toDelete(document)}}">
+                    <paper-icon-button icon="delete" on-tap="deleteDocument"></paper-icon-button>
+                </template>
             </div>
         </paper-toolbar>
     </template>
@@ -42,7 +45,12 @@
             is: 'document-title',
             properties: {
                 document: {
-                    type: Object
+                    type: Object,
+                    notify: true
+                },
+                localData: {
+                    type: Object,
+                    notify: true
                 }
             },
             getTitle: function (document) {
@@ -59,7 +67,15 @@
             toCloud: function (document) {
                 var doc = document || {};
 
-                return doc.text && doc.isEdited ? true : false;
+                return doc.text && doc['isEdited'] ? true : false;
+            },
+            toDelete: function (document) {
+                var doc = document || {};
+
+                return doc._id ? true : false;
+            },
+            deleteDocument: function (e) {
+                console.log(this.localData);
             }
         });
     </script>
